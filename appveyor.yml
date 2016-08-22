@@ -8,6 +8,6 @@ environment:
   # There is no build phase for Python
   build: off
 
-  # Launch tests
-  test_script:
-    - "%PYTHON%\\python.exe -c 'from scapy.all import *; print conf'"
+# Launch tests
+test_script:
+  - "%PYTHON%\\python.exe -c 'from scapy.all import *; print conf'"
