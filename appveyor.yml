@@ -10,4 +10,4 @@ build: off
 
 # Launch tests
 test_script:
-  - "%PYTHON%\python test/dump_conf.py"
+  - "%PYTHON%\\python test/dump_conf.py"
