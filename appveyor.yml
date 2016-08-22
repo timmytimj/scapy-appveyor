@@ -1,0 +1,13 @@
+environment:
+
+  # Python versions that will be tested
+  # Note: it defines variables that can be used later
+  matrix:
+    - PYTHON: "C:\\Python27"
+
+  # There is no build phase for Python
+  build: off
+
+  # Launch tests
+  test_script:
+    - "%PYTHON%\\python.exe -c "from scapy.all import *; print conf"
