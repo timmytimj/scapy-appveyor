@@ -10,4 +10,4 @@ environment:
 
   # Launch tests
   test_script:
-    - "%PYTHON%\\python.exe -c "from scapy.all import *; print conf"
+    - "%PYTHON%\\python.exe -c 'from scapy.all import *; print conf'"
