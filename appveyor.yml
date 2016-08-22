@@ -5,8 +5,8 @@ environment:
   matrix:
     - PYTHON: "C:\\Python27"
 
-  # There is no build phase for Python
-  build: off
+# There is no build phase for Python
+build: off
 
 # Launch tests
 test_script:
