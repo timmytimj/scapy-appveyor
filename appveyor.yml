@@ -23,5 +23,5 @@ test_script:
   - type C:\ProgramData\chocolatey\logs\chocolatey.log
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - nmap -h
+  - nmap.exe -h
   - "%PYTHON%\\python test/dump_conf.py"
