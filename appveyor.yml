@@ -10,6 +10,10 @@ environment:
 # There is no build phase for Python
 build: off
 
+# Install WinPcap
+install:
+  - cmd: choco install -y winpcap
+
 # Launch tests
 test_script:
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
