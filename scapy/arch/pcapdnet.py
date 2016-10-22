@@ -22,26 +22,21 @@ import scapy.arch
 if conf.use_winpcapy:
   #mostly code from https://github.com/phaethon/scapy translated to python2.X
   try:
-    try:
-      from .winpcapy import *
-    except WindowsError as e:
-      log_loading.error("Unable to load wpcap.dll: %s" % e)
-      conf.use_winpcapy = False
-    finally:
-      def winpcapy_get_if_list():
-        err = create_string_buffer(PCAP_ERRBUF_SIZE)
-        devs = POINTER(pcap_if_t)()
-        ret = []
-        if pcap_findalldevs(byref(devs), err) < 0:
-          return ret
-        try:
-          p = devs
-          while p:
-            ret.append(p.contents.name.decode('ascii'))
-            p = p.contents.next
-          return ret
-        finally:
-          pcap_freealldevs(devs)
+    from .winpcapy import *
+    def winpcapy_get_if_list():
+      err = create_string_buffer(PCAP_ERRBUF_SIZE)
+      devs = POINTER(pcap_if_t)()
+      ret = []
+      if pcap_findalldevs(byref(devs), err) < 0:
+        return ret
+      try:
+        p = devs
+        while p:
+          ret.append(p.contents.name.decode('ascii'))
+          p = p.contents.next
+        return ret
+      finally:
+        pcap_freealldevs(devs)
 
   except OSError as e:
     if conf.interactive:
