@@ -19,8 +19,9 @@ install:
 
 # Launch tests
 test_script:
-  - set
+  - 'dir "C:\Program Files (x86)"
+  - 'dir "C:\"
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - 'cd "C:\\Program Files (x86)\\Nmap"; nmap -h'
+  - 'cd "C:\\Program Files (x86)\Nmap"; nmap -h'
   - "%PYTHON%\\python test/dump_conf.py"
