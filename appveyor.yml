@@ -31,8 +31,8 @@ test_script:
   #- echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
   #- '"C:\Program Files (x86)\Nmap\nmap.exe"'
-  #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System32\wpcap.dll'
-  - regsvr32 /s C:\Windows\System32\Npcap\wpcap.dll
+  - 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System32\wpcap.dll'
+  - regsvr32 /s wpcap.dll
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System\wpcap.dll'
   - 'dir "C:\Windows\System32\"'
   - "%PYTHON%\\python test/dump_conf.py"
