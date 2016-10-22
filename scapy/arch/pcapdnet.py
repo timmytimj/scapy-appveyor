@@ -44,6 +44,12 @@ if conf.use_winpcapy:
       conf.use_winpcapy = False
     else:
       raise
+  except WindowsError as e:
+    if conf.interactive:
+      log_loading.error("Unable to import libpcap library: %s" % e)
+      conf.use_winpcapy = False
+    else:
+      raise
 
   # From BSD net/bpf.h
   #BIOCIMMEDIATE=0x80044270
