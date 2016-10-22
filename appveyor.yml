@@ -14,12 +14,12 @@ build: off
 install:
   # Installing WinPcap directly does not work,
   # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
-  - cmd: choco install -y nmap
+  - choco install -y nmap
+  - refreshenv
 
 # Launch tests
 test_script:
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - refreshenv
   - nmap -h
   - "%PYTHON%\\python test/dump_conf.py"
