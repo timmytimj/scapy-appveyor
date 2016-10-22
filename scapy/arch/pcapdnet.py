@@ -25,25 +25,23 @@ if conf.use_winpcapy:
     try:
       from .winpcapy import *
     except WindowsError as e:
-      if conf.interactive:
-        log_loading.error("Unable to import libpcap library: %s" % e)
-        conf.use_winpcapy = False
-      else:
-        raise
-    def winpcapy_get_if_list():
-      err = create_string_buffer(PCAP_ERRBUF_SIZE)
-      devs = POINTER(pcap_if_t)()
-      ret = []
-      if pcap_findalldevs(byref(devs), err) < 0:
-        return ret
-      try:
-        p = devs
-        while p:
-          ret.append(p.contents.name.decode('ascii'))
-          p = p.contents.next
-        return ret
-      finally:
-        pcap_freealldevs(devs)
+      log_loading.error("Unable to load wpcap.dll: %s" % e)
+      conf.use_winpcapy = False
+    finally:
+      def winpcapy_get_if_list():
+        err = create_string_buffer(PCAP_ERRBUF_SIZE)
+        devs = POINTER(pcap_if_t)()
+        ret = []
+        if pcap_findalldevs(byref(devs), err) < 0:
+          return ret
+        try:
+          p = devs
+          while p:
+            ret.append(p.contents.name.decode('ascii'))
+            p = p.contents.next
+          return ret
+        finally:
+          pcap_freealldevs(devs)
 
   except OSError as e:
     if conf.interactive:
