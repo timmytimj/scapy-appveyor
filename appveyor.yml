@@ -20,9 +20,7 @@ install:
 # Launch tests
 test_script:
   - set
-  - dir C:\ProgramData\chocolatey\bin
-  - type C:\ProgramData\chocolatey\logs\chocolatey.log
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - nmap -h
+  - "cd "\Program Files (x86)\Nmap"; nmap -h"
   - "%PYTHON%\\python test/dump_conf.py"
