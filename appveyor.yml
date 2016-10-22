@@ -20,5 +20,6 @@ install:
 test_script:
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
+  - refreshenv
   - nmap -h
   - "%PYTHON%\\python test/dump_conf.py"
