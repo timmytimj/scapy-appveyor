@@ -19,7 +19,7 @@ install:
 
 # Launch tests
 test_script:
-  #- 'dir "C:\Program Files"'
+  - 'dir "C:\Program Files"'
   - 'dir "C:\Program Files\Npcap"'
   - 'dir "C:\Program Files\Nmap"'
   - 'dir C:\Windows\System32'
