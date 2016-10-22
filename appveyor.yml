@@ -16,4 +16,5 @@ init:
 
 # Launch tests
 test_script:
+  - "ECHO %APPVEYOR_BUILD_FOLDER%"
   - "%PYTHON%\\python test/dump_conf.py"
