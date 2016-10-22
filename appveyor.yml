@@ -26,7 +26,7 @@ test_script:
   #- 'dir C:\Windows\System32'
   #- 'dir C:\Windows\System32\Npcap'
   #- 'dir "C:\Program Files (x86)"'
-  #- 'dir "C:\Windows\"'
+  - 'dir "C:\Windows\"'
   #- 'dir "C:\Windows\System\"'
   #- echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
@@ -34,7 +34,7 @@ test_script:
   - 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System32\wpcap.dll'
   #- cd C:\Windows\System32\
   #- 'regsvr32 /s C:\Windows\System32\wpcap.dll'
-  - 'regsvr32 /s wpcap.dll'
+  - 'c:\windows\sysWOW64\regsvr32.exe /s wpcap.dll'
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System\wpcap.dll'
   - 'dir "C:\Windows\System32\"'
   - "%PYTHON%\\python test/dump_conf.py"
