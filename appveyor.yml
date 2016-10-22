@@ -19,7 +19,7 @@ install:
 
 # Launch tests
 test_script:
-  - 'dir "C:\Program Files (x86)"
+  - 'dir "C:\Program Files (x86)"'
   - 'dir "C:\"'
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
