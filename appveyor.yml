@@ -15,4 +15,4 @@ test_script:
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
-  - %PYTHON%\\python test/dump_conf.py
+  - "%PYTHON%\\python test/dump_conf.py"
