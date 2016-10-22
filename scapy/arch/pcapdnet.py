@@ -22,7 +22,14 @@ import scapy.arch
 if conf.use_winpcapy:
   #mostly code from https://github.com/phaethon/scapy translated to python2.X
   try:
-    from .winpcapy import *
+    try:
+      from .winpcapy import *
+    except WindowsError as e:
+      if conf.interactive:
+        log_loading.error("Unable to import libpcap library: %s" % e)
+        conf.use_winpcapy = False
+      else:
+        raise
     def winpcapy_get_if_list():
       err = create_string_buffer(PCAP_ERRBUF_SIZE)
       devs = POINTER(pcap_if_t)()
@@ -39,12 +46,6 @@ if conf.use_winpcapy:
         pcap_freealldevs(devs)
 
   except OSError as e:
-    if conf.interactive:
-      log_loading.error("Unable to import libpcap library: %s" % e)
-      conf.use_winpcapy = False
-    else:
-      raise
-  except WindowsError as e:
     if conf.interactive:
       log_loading.error("Unable to import libpcap library: %s" % e)
       conf.use_winpcapy = False
