@@ -4,9 +4,14 @@ environment:
   # Note: it defines variables that can be used later
   matrix:
     - PYTHON: "C:\\Python27"
+      PYTHON_ARCH: "32"
 
 # There is no build phase for Python
 build: off
+
+# Display some information
+init:
+  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
 
 # Launch tests
 test_script:
