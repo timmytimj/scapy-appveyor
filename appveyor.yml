@@ -22,5 +22,5 @@ test_script:
   - set
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - "cd "\Program Files (x86)\Nmap"; nmap -h"
+  - 'cd "\Program Files (x86)\Nmap"; nmap -h'
   - "%PYTHON%\\python test/dump_conf.py"
