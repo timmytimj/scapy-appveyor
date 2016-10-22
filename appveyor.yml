@@ -19,6 +19,8 @@ install:
 
 # Launch tests
 test_script:
+  - set
+  - "type C:\ProgramData\chocolatey\logs\chocolatey.log"
   - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
   - nmap -h
