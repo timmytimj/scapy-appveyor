@@ -24,7 +24,7 @@ test_script:
   #- 'dir "C:\Program Files\Npcap"'
   #- 'dir "C:\Program Files (x86)\Nmap"'
   #- 'dir C:\Windows\System32'
-  #- 'dir C:\Windows\System32\Npcap'
+  - 'dir C:\Windows\System32\Npcap'
   #- 'dir "C:\Program Files (x86)"'
   - 'dir "C:\Windows\"'
   - 'dir "C:\Windows\System\"'
