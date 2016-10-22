@@ -12,9 +12,11 @@ build: off
 
 # Display some information
 init:
-  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH% %APPVEYOR_BUILD_FOLDER%"
+  - ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH% %APPVEYOR_BUILD_FOLDER%
 
 # Launch tests
 test_script:
-  - "ECHO %APPVEYOR_BUILD_FOLDER%"
+  - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
+  - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
+  - echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - "%PYTHON%\\python test/dump_conf.py"
