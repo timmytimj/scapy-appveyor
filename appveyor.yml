@@ -19,9 +19,9 @@ install:
 
 # Launch tests
 test_script:
-  - 'dir "C:\Program Files"'
-  - 'dir "C:\Program Files (x86)"'  
-  - 'dir "C:\Program Files\Npcap"'
+  #- 'dir "C:\Program Files"'
+  #- 'dir "C:\Program Files (x86)"'  
+  #- 'dir "C:\Program Files\Npcap"'
   - 'dir "C:\Program Files (x86)\Nmap"'
   - 'dir C:\Windows\System32'
   - 'dir C:\Windows\System32\Npcap'
@@ -29,5 +29,5 @@ test_script:
   #- 'dir "C:\"'
   #- echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - '"C:\Program Files (x86)\Nmap\nmap -h"'
+  - '"C:\Program Files (x86)\Nmap\nmap.exe"'
   - "%PYTHON%\\python test/dump_conf.py"
