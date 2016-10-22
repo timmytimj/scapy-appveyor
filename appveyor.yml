@@ -12,7 +12,9 @@ build: off
 
 # Install WinPcap
 install:
-  - cmd: choco install -y winpcap
+  # Installing WinPcap directly does not work,
+  # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
+  - cmd: choco install -y nmap
 
 # Launch tests
 test_script:
