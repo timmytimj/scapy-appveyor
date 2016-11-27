@@ -38,7 +38,7 @@ test_script:
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System\wpcap.dll'
   #- 'dir "C:\Windows\System32\"'
   - 'cd C:\Windows\System32\Npcap\'
-  - 'c:\windows\sysWOW64\regsvr32.exe /s wpcap.dll'
+  - 'regsvr32.exe /s wpcap.dll'
   - 'cd C:\projects\scapy-appveyor'
   - "%PYTHON%\\python test/test_lib.py"
   - "%PYTHON%\\python test/dump_conf.py"
