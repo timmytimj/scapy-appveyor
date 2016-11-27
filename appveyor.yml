@@ -14,7 +14,7 @@ build: off
 install:
   # Installing WinPcap directly does not work,
   # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
-  #- choco install -y nmap
+  - choco install -y nmap
   #- refreshenv
 
 # Launch tests
