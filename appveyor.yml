@@ -14,7 +14,7 @@ build: off
 install:
   # Installing WinPcap directly does not work,
   # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
-  - choco install -y nmap
+  #- choco install -y nmap
   #- refreshenv
 
 # Launch tests
@@ -38,8 +38,8 @@ test_script:
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System\wpcap.dll'
   #- 'dir "C:\Windows\System32\"'
   #- 'cd C:\Windows\System32\Npcap\'
-  - 'copy C:\Windows\System32\Npcap\wpcap.dll C:\projects\scapy-appveyor'
-  - dir
+  - 'dir %systemroot%\SysWoW64' 
+  #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\projects\scapy-appveyor'
   #- 'regsvr32.exe /s wpcap.dll'
   #- 'cd C:\projects\scapy-appveyor'
   - "%PYTHON%\\python test/test_lib.py"
