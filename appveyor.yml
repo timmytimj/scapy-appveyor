@@ -46,6 +46,7 @@ test_script:
   #- 'cd C:\projects\scapy-appveyor'
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
+  - "dumpbin /HEADERS wpcap.dll"
   - "%PYTHON%\\python -v -c ''"
   - "%PYTHON%\\python test/test_lib.py"
   - "%PYTHON%\\python test/dump_conf.py"
