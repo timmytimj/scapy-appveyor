@@ -5,7 +5,7 @@ environment:
   matrix:
     - PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.12"
-      PYTHON_ARCH: "32"
+      PYTHON_ARCH: "64"
 
 # There is no build phase for Scapy
 build: off
@@ -46,5 +46,6 @@ test_script:
   #- 'cd C:\projects\scapy-appveyor'
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
+  - "%PYTHON%\\python -v -c ''"
   - "%PYTHON%\\python test/test_lib.py"
   - "%PYTHON%\\python test/dump_conf.py"
