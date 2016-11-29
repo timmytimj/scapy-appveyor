@@ -4,7 +4,7 @@ environment:
   # Note: it defines variables that can be used later
   matrix:
     - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.12"
+      PYTHON_VERSION: "2.7.x"
       PYTHON_ARCH: "64"
 
 # There is no build phase for Scapy
