@@ -30,7 +30,7 @@ test_script:
   #- 'dir "C:\Windows\System\"'
   #- echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - set PATH=.;%PATH%
+  - set PATH=%APPVEYOR_BUILD_FOLDER%;%PATH%
   #- '"C:\Program Files (x86)\Nmap\nmap.exe"'
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System32\wpcap.dll'
   #- cd C:\Windows\System32\
@@ -44,7 +44,7 @@ test_script:
   #- '%systemroot%\SysWoW64\regsvr32.exe /s wpcap.dll'
   #- '%systemroot%\System32\regsvr32.exe /s wpcap.dll'
   #- 'cd C:\projects\scapy-appveyor'
-  - 'copy C:\Windows\System32\Npcap\wpcap.dll .'
-  - 'copy C:\Windows\System32\Npcap\packet.dll .'
+  - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
+  - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
   - "%PYTHON%\\python test/test_lib.py"
   - "%PYTHON%\\python test/dump_conf.py"
