@@ -56,4 +56,4 @@ test_script:
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'cd %APPVEYOR_BUILD_FOLDER%\\test'
-  - 'run_tests'
+  - 'run_tests_appveyor'
