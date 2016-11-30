@@ -3,7 +3,7 @@ environment:
   # Python versions that will be tested
   # Note: it defines variables that can be used later
   matrix:
-    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\Python27-x64"
       PYTHON_VERSION: "2.7.x"
       PYTHON_ARCH: "64"
 
@@ -21,7 +21,7 @@ install:
 test_script:
   #- 'dir "C:\Program Files"'
   #- 'dir "C:\Program Files (x86)"'
-  - 'dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0"'
+  #- 'dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0"'
   #- 'dir "C:\Program Files\Npcap"'
   #- 'dir "C:\Program Files (x86)\Nmap"'
   #- 'dir C:\Windows\System32'
@@ -47,7 +47,7 @@ test_script:
   #- 'cd C:\projects\scapy-appveyor'
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
-  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\dumpbin" /HEADERS wpcap.dll'
+  #- '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\dumpbin" /HEADERS wpcap.dll'
   - "%PYTHON%\\python -v -c ''"
   - "%PYTHON%\\python test/test_lib.py"
   - "%PYTHON%\\python test/dump_conf.py"
