@@ -56,4 +56,4 @@ test_script:
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'cd %APPVEYOR_BUILD_FOLDER%\\test'
-  - "%PYTHON%\\python tools\\UTscapy.py -t test\\regression.uts -f text -o scapy_regression_test.txt"
+  - "%PYTHON%\\python bin\\UTscapy -t test\\regression.uts -f text -o scapy_regression_test.txt"
