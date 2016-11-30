@@ -31,7 +31,7 @@ test_script:
   #- 'dir "C:\Windows\System\"'
   #- echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - set PATH=%APPVEYOR_BUILD_FOLDER%;%PATH%
+  - set PATH="C:\Windows\System32\Npcap";%PATH%
   #- '"C:\Program Files (x86)\Nmap\nmap.exe"'
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System32\wpcap.dll'
   #- cd C:\Windows\System32\
@@ -45,9 +45,9 @@ test_script:
   #- '%systemroot%\SysWoW64\regsvr32.exe /s wpcap.dll'
   #- '%systemroot%\System32\regsvr32.exe /s wpcap.dll'
   #- 'cd C:\projects\scapy-appveyor'
-  - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
-  - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
+  #- 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
+  #- 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
   #- '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\dumpbin" /HEADERS wpcap.dll'
-  - "%PYTHON%\\python -v -c ''"
+  #- "%PYTHON%\\python -v -c ''"
   - "%PYTHON%\\python test/test_lib.py"
   - "%PYTHON%\\python test/dump_conf.py"
