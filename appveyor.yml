@@ -16,6 +16,8 @@ install:
   # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
   - choco install -y nmap
   - refreshenv
+  # Install Pythin modules
+  - pip install mock
 
 # Launch tests
 test_script:
