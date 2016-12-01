@@ -55,4 +55,4 @@ test_script:
     # Scapy unit tests
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
-  - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -n 0-63"
+  - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -n 0-64"
