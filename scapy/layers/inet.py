@@ -761,6 +761,7 @@ bind_layers( Ether,         IP,            type=2048)
 bind_layers( CookedLinux,   IP,            proto=2048)
 bind_layers( GRE,           IP,            proto=2048)
 bind_layers( SNAP,          IP,            code=2048)
+bind_layers( Loopback,      IP,            type=2)
 bind_layers( IPerror,       IPerror,       frag=0, proto=4)
 bind_layers( IPerror,       ICMPerror,     frag=0, proto=1)
 bind_layers( IPerror,       TCPerror,      frag=0, proto=6)
@@ -1037,7 +1038,7 @@ class TracerouteResult(SndRcvList):
             trace[d][s[IP].ttl] = r[IP].src, ICMP not in r
         for k in trace.itervalues():
             try:
-                m = min(x for x, y in k.itervalues() if y[1])
+                m = min(x for x, y in k.itervalues() if y)
             except ValueError:
                 continue
             for l in k.keys():  # use .keys(): k is modified in the loop

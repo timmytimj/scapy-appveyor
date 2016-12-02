@@ -1,5 +1,5 @@
 #############################################################################
-## ipsec.py --- IPSec support for Scapy                                    ##
+## ipsec.py --- IPsec support for Scapy                                    ##
 ##                                                                         ##
 ## Copyright (C) 2014  6WIND                                               ##
 ##                                                                         ##
@@ -13,7 +13,7 @@
 ## General Public License for more details.                                ##
 #############################################################################
 """
-IPSec layer
+IPsec layer
 ===========
 
 Example of use:
@@ -41,6 +41,8 @@ True
 
 import socket
 import struct
+from scapy.error import warning
+
 try:
     from Crypto.Util.number import GCD as gcd
 except ImportError:
@@ -152,12 +154,19 @@ try:
     from Crypto import Random
 except ImportError:
     # no error if pycrypto is not available but encryption won't be supported
+    warning("IPsec encryption not supported (pycrypto required).")
     AES = None
     DES = None
     DES3 = None
     CAST = None
     Blowfish = None
     Random = None
+
+try:
+    from Crypto.Cipher.AES import MODE_GCM
+    from Crypto.Cipher.AES import MODE_CCM
+except ImportError:
+    warning("Combined crypto modes not available for IPsec (pycrypto 2.7a1 required).")
 
 #------------------------------------------------------------------------------
 def _lcm(a, b):
@@ -171,7 +180,7 @@ def _lcm(a, b):
 
 class CryptAlgo(object):
     """
-    IPSec encryption algorithm
+    IPsec encryption algorithm
     """
 
     def __init__(self, name, cipher, mode, block_size=None, iv_size=None, key_size=None, icv_size=None):
@@ -186,15 +195,19 @@ class CryptAlgo(object):
         @param key_size: an integer or list/tuple of integers. If specified,
                          force the secret keys length to one of the values.
                          Defaults to the `key_size` of the cipher.
+        @param icv_size: the length of the integrity check value of this algo.
+                         Only used in this class for AEAD algorithms.
         """
         self.name = name
         self.cipher = cipher
         self.mode = mode
-        self.icv_size = icv_size
         self.is_aead = (hasattr(self.cipher, 'MODE_GCM') and
                         self.mode == self.cipher.MODE_GCM) or \
                         (hasattr(self.cipher, 'MODE_CCM') and
                         self.mode == self.cipher.MODE_CCM)
+
+        if icv_size is not None:
+            self.icv_size = icv_size
 
         if block_size is not None:
             self.block_size = block_size
@@ -389,19 +402,23 @@ if AES:
                                        block_size=1,
                                        iv_size=8,
                                        key_size=(16 + 4, 24 + 4, 32 + 4))
+
+    # AEAD algorithms are only supported in pycrypto 2.7a1+
+    # they also have an additional field icv_size, which is usually
+    # populated by an auth algo when signing and verifying signatures.
     if hasattr(AES, "MODE_GCM"):
         CRYPT_ALGOS['AES-GCM'] = CryptAlgo('AES-GCM',
                                            cipher=AES,
                                            mode=AES.MODE_GCM,
                                            iv_size=8,
-                                           icv_size=8,
+                                           icv_size=16,
                                            key_size=(16 + 4, 24 + 4, 32 + 4))
     if hasattr(AES, "MODE_CCM"):
         CRYPT_ALGOS['AES-CCM'] = CryptAlgo('AES-CCM',
                                            cipher=AES,
                                            mode=AES.MODE_CCM,
                                            iv_size=8,
-                                           icv_size=8,
+                                           icv_size=16,
                                            key_size=(16 + 4, 24 + 4, 32 + 4))
 if DES:
     CRYPT_ALGOS['DES'] = CryptAlgo('DES',
@@ -449,7 +466,7 @@ class IPSecIntegrityError(Exception):
 
 class AuthAlgo(object):
     """
-    IPSec integrity algorithm
+    IPsec integrity algorithm
     """
 
     def __init__(self, name, mac, digestmod, icv_size, key_size=None):
@@ -491,7 +508,7 @@ class AuthAlgo(object):
 
     def sign(self, pkt, key):
         """
-        Sign an IPSec (ESP or AH) packet with this algo.
+        Sign an IPsec (ESP or AH) packet with this algo.
 
         @param pkt:    a packet that contains a valid encrypted ESP or AH layer
         @param key:    the authentication key, a byte string
@@ -602,7 +619,7 @@ def split_for_transport(orig_pkt, transport_proto):
     header.
 
     @param orig_pkt: the packet to split. Must be an IP or IPv6 packet
-    @param transport_proto: the IPSec protocol number that will be inserted
+    @param transport_proto: the IPsec protocol number that will be inserted
                             at the split position.
     @return: a tuple (header, nh, payload) where nh is the protocol number of
              payload.
@@ -727,7 +744,7 @@ def zero_mutable_fields(pkt, sending=False):
 #------------------------------------------------------------------------------
 class SecurityAssociation(object):
     """
-    This class is responsible of "encryption" and "decryption" of IPSec packets.
+    This class is responsible of "encryption" and "decryption" of IPsec packets.
     """
 
     SUPPORTED_PROTOS = (IP, IPv6)
@@ -735,7 +752,7 @@ class SecurityAssociation(object):
     def __init__(self, proto, spi, seq_num=1, crypt_algo=None, crypt_key=None,
                  auth_algo=None, auth_key=None, tunnel_header=None, nat_t_header=None):
         """
-        @param proto: the IPSec proto to use (ESP or AH)
+        @param proto: the IPsec proto to use (ESP or AH)
         @param spi: the Security Parameters Index of this SA
         @param seq_num: the initial value for the sequence number on encrypted
                         packets

@@ -1352,7 +1352,9 @@ class ICMPv6MLQuery(_ICMPv6ML): # RFC 2710
     overload_fields = {IPv6: { "dst": "ff02::1", "hlim": 1, "nh": 58 }} 
     def hashret(self):
         if self.mladdr != "::":
-            return struct.pack("HH",self.mladdr)+self.payload.hashret()
+            return (
+                inet_pton(socket.AF_INET6, self.mladdr) + self.payload.hashret()
+            )
         else:
             return self.payload.hashret()
         
@@ -2996,7 +2998,7 @@ class TracerouteResult6(TracerouteResult):
 
         for k in trace.itervalues():
             try:
-                m = min(x for x, y in k.itervalues() if y[1])
+                m = min(x for x, y in k.itervalues() if y)
             except ValueError:
                 continue
             for l in k.keys():  # use .keys(): k is modified in the loop
@@ -3722,6 +3724,7 @@ conf.l2types.register(31, IPv6)
 
 bind_layers(Ether,     IPv6,     type = 0x86dd )
 bind_layers(CookedLinux, IPv6,   proto = 0x86dd )
+bind_layers(Loopback,  IPv6,     type = 0x1c )
 bind_layers(IPerror6,  TCPerror, nh = socket.IPPROTO_TCP )
 bind_layers(IPerror6,  UDPerror, nh = socket.IPPROTO_UDP )
 bind_layers(IPv6,      TCP,      nh = socket.IPPROTO_TCP )

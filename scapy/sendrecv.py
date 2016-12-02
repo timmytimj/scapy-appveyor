@@ -127,7 +127,12 @@ def sndrcv(pks, pkt, timeout = None, inter = 0, verbose=None, chainCC=0, retry=0
                                 if remaintime <= 0:
                                     break
                             r = None
-                            if not isinstance(pks, StreamSocket) and (FREEBSD or DARWIN):
+                            if conf.use_bpf:
+                                from scapy.arch.bpf.supersocket import bpf_select
+                                inp = bpf_select(inmask)
+                                if pks in inp:
+                                    r = pks.recv()
+                            elif not isinstance(pks, StreamSocket) and (FREEBSD or DARWIN):
                                 inp, out, err = select(inmask,[],[], 0.05)
                                 if len(inp) == 0 or pks in inp:
                                     r = pks.nonblock_recv()
@@ -283,7 +288,7 @@ def sendpfast(x, pps=None, mbps=None, realtime=None, loop=0, file_cache=False, i
     """Send packets at layer 2 using tcpreplay for performance
     pps:  packets per second
     mpbs: MBits per second
-    realtime: use packet's timestamp, bending time with realtime value
+    realtime: use packet's timestamp, bending time with real-time value
     loop: number of times to process the packet list
     file_cache: cache packets in RAM instead of reading from disk at each iteration
     iface: output interface """
@@ -323,7 +328,7 @@ def sendpfast(x, pps=None, mbps=None, realtime=None, loop=0, file_cache=False, i
 @conf.commands.register
 def sr(x,filter=None, iface=None, nofilter=0, *args,**kargs):
     """Send and receive packets at layer 3
-nofilter: put 1 to avoid use of bpf filters
+nofilter: put 1 to avoid use of BPF filters
 retry:    if positive, how many times to resend unanswered packets
           if negative, how many times to retry when no more packets are answered
 timeout:  how much time to wait after the last packet has been sent
@@ -341,7 +346,7 @@ iface:    listen answers only on the given interface"""
 @conf.commands.register
 def sr1(x,filter=None,iface=None, nofilter=0, *args,**kargs):
     """Send packets at layer 3 and return only the first answer
-nofilter: put 1 to avoid use of bpf filters
+nofilter: put 1 to avoid use of BPF filters
 retry:    if positive, how many times to resend unanswered packets
           if negative, how many times to retry when no more packets are answered
 timeout:  how much time to wait after the last packet has been sent
@@ -362,7 +367,7 @@ iface:    listen answers only on the given interface"""
 @conf.commands.register
 def srp(x,iface=None, iface_hint=None, filter=None, nofilter=0, type=ETH_P_ALL, *args,**kargs):
     """Send and receive packets at layer 2
-nofilter: put 1 to avoid use of bpf filters
+nofilter: put 1 to avoid use of BPF filters
 retry:    if positive, how many times to resend unanswered packets
           if negative, how many times to retry when no more packets are answered
 timeout:  how much time to wait after the last packet has been sent
@@ -382,7 +387,7 @@ iface:    work only on the given interface"""
 @conf.commands.register
 def srp1(*args,**kargs):
     """Send and receive packets at layer 2 and return only the first answer
-nofilter: put 1 to avoid use of bpf filters
+nofilter: put 1 to avoid use of BPF filters
 retry:    if positive, how many times to resend unanswered packets
           if negative, how many times to retry when no more packets are answered
 timeout:  how much time to wait after the last packet has been sent
@@ -488,7 +493,13 @@ def sndrcvflood(pks, pkt, prn=lambda (s,r):r.summary(), chainCC=0, store=1, uniq
 
     try:
         while 1:
-            readyr,readys,_ = select([rsock],[ssock],[])
+            if conf.use_bpf:
+                from scapy.arch.bpf.supersocket import bpf_select
+                readyr = bpf_select([rsock])
+                _, readys, _ = select([], [ssock], [])
+            else:
+                readyr, readys, _ = select([rsock], [ssock], [])
+
             if ssock in readys:
                 pks.send(packets_to_send.next())
                 
@@ -521,7 +532,7 @@ def srflood(x,filter=None, iface=None, nofilter=None, *args,**kargs):
 prn:      function applied to packets received. Ret val is printed if not None
 store:    if 1 (default), store answers and return them
 unique:   only consider packets whose print 
-nofilter: put 1 to avoid use of bpf filters
+nofilter: put 1 to avoid use of BPF filters
 filter:   provide a BPF filter
 iface:    listen answers only on the given interface"""
     s = conf.L3socket(filter=filter, iface=iface, nofilter=nofilter)
@@ -535,7 +546,7 @@ def srpflood(x,filter=None, iface=None, iface_hint=None, nofilter=None, *args,**
 prn:      function applied to packets received. Ret val is printed if not None
 store:    if 1 (default), store answers and return them
 unique:   only consider packets whose print 
-nofilter: put 1 to avoid use of bpf filters
+nofilter: put 1 to avoid use of BPF filters
 filter:   provide a BPF filter
 iface:    listen answers only on the given interface"""
     if iface is None and iface_hint is not None:
@@ -605,10 +616,17 @@ interfaces)
                 remain = stoptime-time.time()
                 if remain <= 0:
                     break
-            sel = select(sniff_sockets, [], [], remain)
-            for s in sel[0]:
+            if conf.use_bpf:
+                from scapy.arch.bpf.supersocket import bpf_select
+                ins = bpf_select(sniff_sockets, remain)
+            else:
+                ins, _, _ = select(sniff_sockets, [], [], remain)
+            for s in ins:
                 p = s.recv()
-                if p is not None:
+                if p is None and offline is not None:
+                    stop_event = True
+                    break
+                elif p is not None:
                     if lfilter and not lfilter(p):
                         continue
                     if s in label:
@@ -675,7 +693,12 @@ stop_filter: python function applied to each packet to determine
                 remain = stoptime-time.time()
                 if remain <= 0:
                     break
-            ins, outs, errs = select([s1, s2], [], [], remain)
+            if conf.use_bpf:
+                from scapy.arch.bpf.supersocket import bpf_select
+                ins = bpf_select([s1, s2], remain)
+            else:
+                ins, _, _ = select([s1, s2], [], [], remain)
+
             for s in ins:
                 p = s.recv()
                 if p is not None:
