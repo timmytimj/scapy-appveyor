@@ -58,3 +58,4 @@ test_script:
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -K automaton -K not_windows"
+  - "echo %ERRORLEVEL%"
