@@ -4560,6 +4560,7 @@ pkt = pkt.payload
 assert isinstance(pkt, DNS) and isinstance(pkt.payload, NoPayload)
 
 + Mocked read_routes() calls
+~ not_windows
 
 = Truncated netstat -rn output on OS X
 
