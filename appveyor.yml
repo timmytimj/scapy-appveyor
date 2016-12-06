@@ -52,9 +52,9 @@ test_script:
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
   #- '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\dumpbin" /HEADERS wpcap.dll'
   #- "%PYTHON%\\python -v -c ''"
-  - "%PYTHON%\\python test\\test_lib.py"
-  - "%PYTHON%\\python test\\dump_conf.py"
+  #- "%PYTHON%\\python test\\test_lib.py"
+  #- "%PYTHON%\\python test\\dump_conf.py"
     # Scapy unit tests
   - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
   - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
-  - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -n 0-68,70-900 -K not_windows"
+  - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -n 0-69,71-900 -K not_windows"
