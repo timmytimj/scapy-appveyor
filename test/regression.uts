@@ -4560,9 +4560,9 @@ pkt = pkt.payload
 assert isinstance(pkt, DNS) and isinstance(pkt.payload, NoPayload)
 
 + Mocked read_routes() calls
-~ not_windows
 
 = Truncated netstat -rn output on OS X
+~ not_windows
 
 import mock
 import StringIO
@@ -4619,6 +4619,7 @@ test_osx_netstat_truncated()
 + Mocked read_routes6() calls
 
 = Preliminary definitions
+~ not_windows
 
 import mock
 import StringIO
@@ -4648,6 +4649,7 @@ def check_mandatory_ipv6_routes(routes6):
 
 
 = Mac OS X 10.9.5
+~ not_windows
 
 @mock.patch("scapy.arch.unix.in6_getifaddr")
 @mock.patch("scapy.arch.unix.os")
@@ -4688,6 +4690,8 @@ test_osx_10_9_5()
 
 
 = Mac OS X 10.9.5 with global IPv6 connectivity
+~ not_windows
+
 @mock.patch("scapy.arch.unix.in6_getifaddr")
 @mock.patch("scapy.arch.unix.os")
 def test_osx_10_9_5_global(mock_os, mock_in6_getifaddr):
@@ -4735,6 +4739,7 @@ test_osx_10_9_5_global()
 
 
 = Mac OS X 10.10.4
+~ not_windows
 
 @mock.patch("scapy.arch.unix.in6_getifaddr")
 @mock.patch("scapy.arch.unix.os")
@@ -4774,6 +4779,7 @@ test_osx_10_10_4()
 
 
 = FreeBSD 10.2
+~ not_windows
 
 @mock.patch("scapy.arch.unix.in6_getifaddr")
 @mock.patch("scapy.arch.unix.os")
@@ -4812,6 +4818,7 @@ test_freebsd_10_2()
 
 
 = OpenBSD 5.5
+~ not_windows
 
 @mock.patch("scapy.arch.unix.OPENBSD")
 @mock.patch("scapy.arch.unix.in6_getifaddr")
@@ -4869,6 +4876,7 @@ test_openbsd_5_5()
 
 
 = NetBSD 7.0
+~ not_windows
 
 @mock.patch("scapy.arch.unix.NETBSD")
 @mock.patch("scapy.arch.unix.in6_getifaddr")
