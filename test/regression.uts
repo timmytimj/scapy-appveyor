@@ -67,6 +67,13 @@ if len(routes6):
 else:
     True
 
+= Add a route to 127.0.0.1 on Windows
+if WINDOWS:
+  conf.route.make_route(host="127.0.0.1", net="127.0.0.0/8")
+  True
+else:
+  True
+
 ############
 ############
 + Basic tests
