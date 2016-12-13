@@ -59,7 +59,7 @@ test_script:
   
   # Main unit tests
   - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -K automaton -K mock_read_routes6_bsd || exit /b 42"
-   - 'del test\regression.uts'
+  - 'del test\regression.uts'
 
   # Secondary unit tests
   - 'del test\bpf.uts' # Don't bother with BPF regression tests
