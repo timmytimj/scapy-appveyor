@@ -16,7 +16,7 @@ install:
   # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
   - choco install -y nmap
   - refreshenv
-  # Install Pythin modules
+  # Install Python modules
   - "%PYTHON%\\python -m pip install pycrypto"
 
 # Launch tests
