@@ -57,7 +57,7 @@ test_script:
   #- 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
   #- 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
   # Scapy unit tests
-  - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -K automaton -K mock_read_routes6_bsd || exit /b !ERRORLEVEL!"
+  - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -K automaton -K mock_read_routes6_bsd || exit /b 42"
   # Don't bother with BPF regression tests
   - 'del test\bpf.uts'
-  - "for %%t in (test\\*.uts) do (%PYTHON%\\python bin\\UTscapy -f text -t %%t -F -K combined_modes || exit /b !ERRORLEVEL!)"
+  - "for %%t in (test\\*.uts) do (%PYTHON%\\python bin\\UTscapy -f text -t %%t -F -K combined_modes || exit /b 42)"
