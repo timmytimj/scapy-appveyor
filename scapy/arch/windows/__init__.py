@@ -236,7 +236,7 @@ class NetworkInterface(object):
         self._update_pcapdata()
 
         try:
-            self.ip = socket.inet_ntoa(get_if_raw_addr(data['guid']))
+            self.ip = socket.inet_ntoa(get_if_raw_addr(data))
         except (KeyError, AttributeError, NameError):
             pass
 
