@@ -67,19 +67,6 @@ if len(routes6):
 else:
     True
 
-= Add a route to 127.0.0.1 on Windows
-
-if WINDOWS:
-    loop_net = struct.unpack("!I", socket.inet_aton("127.0.0.0"))[0]
-    loop_mask = struct.unpack("!I", socket.inet_aton("255.0.0.0"))[0]
-    adapter = conf.route.routes[0][3]
-    loopback_route = (loop_net, loop_mask, "0.0.0.0", adapter, "127.0.0.1")
-    conf.route.routes.append(loopback_route)
-    conf.route.invalidate_cache()
-    True
-else:
-    True
-
 ############
 ############
 + Basic tests
