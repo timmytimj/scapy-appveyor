@@ -471,7 +471,7 @@ def route_add_loopback():
     loop_mask = struct.unpack("!I", socket.inet_aton("255.0.0.0"))[0]
 
     # Get the adapter from an existing route
-    if len(adapter) == 0:
+    if len(conf.route.routes) == 0:
         return
     adapter = conf.route.routes[0][3]
 
