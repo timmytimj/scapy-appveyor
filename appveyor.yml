@@ -66,4 +66,4 @@ test_script:
   - "for %%t in (test\\*.uts) do (%PYTHON%\\python bin\\UTscapy -f text -t %%t -F -K combined_modes || exit /b 42)"
   
   # Contrib unit tests
-  - "for %%t in (scapy\\contrib\\*.uts) do (set NAME=%%~nt ; %PYTHON%\\python bin\\UTscapy -f text -t %%t -F -P load_contrib(%NAME%) || exit /b 42)"
+  - "for %%t in (scapy\\contrib\\*.uts) do (%PYTHON%\\python bin\\UTscapy -f text -t %%t -F -P \"load_contrib(\"%%~nt\")\"  || exit /b 42)"
