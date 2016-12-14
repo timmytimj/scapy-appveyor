@@ -10,52 +10,24 @@ environment:
 # There is no build phase for Scapy
 build: off
 
-# Install WinPcap
 install:
   # Installing WinPcap directly does not work,
   # see http://help.appveyor.com/discussions/problems/2280-winpcap-installation-issue
   - choco install -y nmap
   - refreshenv
+
   # Install Python modules
   - "%PYTHON%\\python -m pip install ecdsa pycrypto"
 
 # Launch tests
 test_script:
-  #- 'dir "C:\Program Files"'
-  #- 'dir "C:\Program Files (x86)"'
-  #- 'dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0"'
-  #- 'dir "C:\Program Files\Npcap"'
-  #- 'dir "C:\Program Files (x86)\Nmap"'
-  #- 'dir C:\Windows\System32'
-  #- 'dir C:\Windows\System32\Npcap'
-  #- 'dir "C:\Program Files (x86)"'
-  #- 'dir "C:\Windows\"'
-  #- 'dir "C:\Windows\System\"'
-  #- echo %PYTHONPATH% %APPVEYOR_BUILD_FOLDER%
+  # Set environment variables
   - set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%
-  - set PATH=%APPVEYOR_BUILD_FOLDER%;%PATH%
-  #- '"C:\Program Files (x86)\Nmap\nmap.exe"'
-  #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System32\wpcap.dll'
-  #- cd C:\Windows\System32\
-  #- 'regsvr32 /s C:\Windows\System32\wpcap.dll'
-  #- 'c:\windows\sysWOW64\regsvr32.exe /s C:\Windows\System32\wpcap.dll'
-  #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\Windows\System\wpcap.dll'
-  #- 'dir "C:\Windows\System32\"'
-  #- 'cd C:\Windows\System32\Npcap\'
-  #- dir
-  #- 'copy C:\Windows\System32\Npcap\wpcap.dll C:\projects\scapy-appveyor'
-  #- '%systemroot%\SysWoW64\regsvr32.exe /s wpcap.dll'
-  #- '%systemroot%\System32\regsvr32.exe /s wpcap.dll'
-  #- 'cd C:\projects\scapy-appveyor'
-  # Silly tests
-  - 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
-  - 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
-  #- '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\dumpbin" /HEADERS wpcap.dll'
-  #- "%PYTHON%\\python -v -c ''"
-  #- "%PYTHON%\\python test\\test_lib.py"
-  #- "%PYTHON%\\python test\\dump_conf.py"
-  #- 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%\\test'
-  #- 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%\\test'
+  - set PATH=%APPVEYOR_BUILD_FOLDER%;C:\Windows\System32\Npcap\;%PATH%
+
+  # Copy WinPcap dlls to the Scapy directory
+  #- 'copy C:\Windows\System32\Npcap\wpcap.dll %APPVEYOR_BUILD_FOLDER%'
+  #- 'copy C:\Windows\System32\Npcap\packet.dll %APPVEYOR_BUILD_FOLDER%'
   
   # Main unit tests
   - "%PYTHON%\\python bin\\UTscapy -f text -t test\\regression.uts -F -K automaton -K mock_read_routes6_bsd || exit /b 42"
